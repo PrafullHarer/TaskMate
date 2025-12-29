@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: "TaskMate - Student Accountability Platform",
   description: "Hold each other accountable with daily tasks, verification, and rewards",
   keywords: ["task management", "student groups", "accountability", "productivity"],
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
