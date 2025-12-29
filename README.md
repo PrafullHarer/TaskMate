@@ -125,6 +125,10 @@ A comprehensive platform where student groups hold each other accountable throug
 - **Authorization**: Role-based access control (Admin vs Member) for group settings.
 - **Data Integrity**: Rate limiting and input validation.
 
+## 👥 Credits
+
+Developed by [Prafull Harer](https://github.com/PrafullHarer)
+
 ## 📄 License
 
 MIT
