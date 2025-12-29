@@ -58,19 +58,24 @@ app.use((req, res) => {
     });
 });
 
-// Start weekly reset scheduler
-weeklyReset.start();
-console.log('Weekly reset scheduler started');
+// Start weekly reset scheduler if not in production environment (Vercel)
+// In Vercel, we use Vercel Cron
+if (process.env.NODE_ENV !== 'production') {
+    weeklyReset.start();
+    console.log('Weekly reset scheduler started');
+}
 
 const PORT = process.env.PORT || 5000;
 
-server.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+if (require.main === module) {
+    server.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
     console.error('Unhandled Rejection:', err);
 });
 
-module.exports = { app, server };
+module.exports = app; // Export app for Vercel

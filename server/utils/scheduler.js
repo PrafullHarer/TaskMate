@@ -30,8 +30,8 @@ const calculateNextResetDate = (frequency, fromDate = new Date()) => {
     return nextDate;
 };
 
-// Daily check for resets - runs every day at midnight (00:00)
-const dailyResetCheck = cron.schedule('0 0 * * *', async () => {
+// Daily check for resets logic
+const runDailyResetCheck = async () => {
     console.log('Running daily reset check...');
 
     try {
@@ -106,7 +106,10 @@ const dailyResetCheck = cron.schedule('0 0 * * *', async () => {
     } catch (error) {
         console.error('Error during daily reset check:', error);
     }
-}, {
+};
+
+// Schedule it
+const dailyResetCheck = cron.schedule('0 0 * * *', runDailyResetCheck, {
     scheduled: false
 });
 
@@ -175,8 +178,8 @@ const checkAchievements = async (userId) => {
     }
 };
 
-// Hourly check for overdue tasks
-const checkOverdueTasks = cron.schedule('0 * * * *', async () => {
+// Hourly check for overdue tasks logic
+const runCheckOverdueTasks = async () => {
     try {
         const now = new Date();
         const Task = require('../models/Task'); // Import here to avoid circular dependency if any
@@ -222,6 +225,15 @@ const checkOverdueTasks = cron.schedule('0 * * * *', async () => {
     } catch (error) {
         console.error('Error checking overdue tasks:', error);
     }
-});
+};
 
-module.exports = { weeklyReset: dailyResetCheck, checkAchievements, checkOverdueTasks };
+// Schedule overdue check
+const checkOverdueTasks = cron.schedule('0 * * * *', runCheckOverdueTasks);
+
+module.exports = {
+    weeklyReset: dailyResetCheck,
+    checkAchievements,
+    checkOverdueTasks,
+    runDailyResetCheck,
+    runCheckOverdueTasks
+};
