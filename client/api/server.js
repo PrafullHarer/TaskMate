@@ -1,32 +1,21 @@
-require('dotenv').config();
 const express = require('express');
-const http = require('http');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
-const { initSocket } = require('./config/socket');
-const { weeklyReset } = require('./utils/scheduler');
 
 // Connect to database
 connectDB();
 
 const app = express();
-const server = http.createServer(app);
-
-// Initialize Socket.io
-initSocket(server);
 
 // Middleware
 app.use(cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: process.env.CLIENT_URL || process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000',
     credentials: true
 }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Serve static files (e.g., favicon.ico)
-app.use(express.static('public'));
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
@@ -61,24 +50,4 @@ app.use((req, res) => {
     });
 });
 
-// Start weekly reset scheduler if not in production environment (Vercel)
-// In Vercel, we use Vercel Cron
-if (process.env.NODE_ENV !== 'production') {
-    weeklyReset.start();
-    console.log('Weekly reset scheduler started');
-}
-
-const PORT = process.env.PORT || 5000;
-
-if (require.main === module) {
-    server.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
-}
-
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (err) => {
-    console.error('Unhandled Rejection:', err);
-});
-
-module.exports = app; // Export app for Vercel
+module.exports = app;

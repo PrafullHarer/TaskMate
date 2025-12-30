@@ -1,0 +1,42 @@
+{
+    "name": "taskmate",
+    "version": "1.0.0",
+    "description": "Daily Task & Accountability Platform - A collaborative productivity application",
+    "private": true,
+    "scripts": {
+        "dev": "cd client && npm run dev",
+        "build": "cd client && npm run build",
+        "start": "cd client && npm run start",
+        "install": "cd client && npm install",
+        "lint": "cd client && npm run lint"
+    },
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "cookie-parser": "^1.4.7",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "express-rate-limit": "^7.1.5",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^8.0.3",
+        "node-cron": "^3.0.3"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/yourusername/TaskMate.git"
+    },
+    "keywords": [
+        "taskmate",
+        "productivity",
+        "accountability",
+        "task-management",
+        "nextjs",
+        "express",
+        "mongodb"
+    ],
+    "author": "",
+    "license": "MIT",
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}

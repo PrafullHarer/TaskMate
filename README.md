@@ -35,11 +35,26 @@ A comprehensive platform where student groups hold each other accountable throug
 | Layer | Technology |
 |-------|------------|
 | **Frontend** | Next.js 14 (App Router), TypeScript, Tailwind CSS v4, Lucide Icons |
-| **Backend** | Node.js, Express.js |
+| **Backend** | Node.js, Express.js (Serverless) |
 | **Database** | MongoDB with Mongoose |
 | **Auth** | JWT (JSON Web Tokens) + BCrypt |
-| **Real-time** | Socket.io |
-| **Scheduling** | node-cron (for daily resets and hourly penalty checks) |
+| **Scheduling** | Vercel Cron (for weekly resets) |
+
+## 📁 Project Structure
+
+```
+TaskMate/
+├── client/                 # Next.js frontend + Express API
+│   ├── src/               # Next.js pages and components
+│   └── api/               # Express backend (serverless)
+│       ├── routes/        # API routes
+│       ├── models/        # MongoDB models
+│       ├── middleware/    # Auth middleware
+│       └── config/        # Database config
+├── vercel.json            # Vercel deployment config
+├── package.json           # Root package with dependencies
+└── .env.example           # Environment variables template
+```
 
 ## 🚀 Quick Start
 
@@ -56,54 +71,32 @@ A comprehensive platform where student groups hold each other accountable throug
    cd taskmate
    ```
 
-2. **Install Backend Dependencies**
+2. **Install Dependencies**
    ```bash
-   cd server
-   npm install
-   ```
-
-3. **Install Frontend Dependencies**
-   ```bash
-   cd ../client
    npm install
    ```
 
 ### Configuration
 
-1. **Backend Environment**  
-   Create a file named `.env` in the `server` directory:
-   ```env
-   PORT=5000
-   MONGODB_URI=mongodb://localhost:27017/taskmate
-   JWT_SECRET=your_super_secret_jwt_key
-   JWT_EXPIRE=7d
-   CLIENT_URL=http://localhost:3000
-   NODE_ENV=development
-   ```
-
-2. **Frontend Environment**  
-   Create a file named `.env.local` in the `client` directory:
-   ```env
-   NEXT_PUBLIC_API_URL=http://localhost:5000/api
-   NEXT_PUBLIC_SOCKET_URL=http://localhost:5000
-   ```
+Create a `.env` file in the root directory (copy from `.env.example`):
+```env
+MONGODB_URI=mongodb://localhost:27017/taskmate
+JWT_SECRET=your_super_secret_jwt_key
+JWT_EXPIRE=7d
+CLIENT_URL=http://localhost:3000
+NODE_ENV=development
+```
 
 ### Running the Application
 
-1. **Start the Backend**
-   ```bash
-   cd server
-   npm run dev
-   # Server runs on http://localhost:5000
-   # Cron jobs for resets and penalties will start automatically
-   ```
+```bash
+npm run dev
+# App runs on http://localhost:3000
+```
 
-2. **Start the Frontend** (in a new terminal)
-   ```bash
-   cd client
-   npm run dev
-   # App runs on http://localhost:3000
-   ```
+## 🚀 Deployment
+
+Deploy to Vercel as a **single project** - see [VERCEL_DEPLOY.md](./VERCEL_DEPLOY.md) for step-by-step instructions.
 
 ## 📡 API Overview
 
