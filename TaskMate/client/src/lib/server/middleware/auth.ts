@@ -36,7 +36,8 @@ export async function protect(req: NextRequest): Promise<{ user: any } | NextRes
 
     try {
       // Verify token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string; username: string };
+      const secret = process.env.JWT_SECRET || 'dev_jwt_secret_change_me';
+      const decoded = jwt.verify(token, secret) as { id: string; username: string };
 
       // Get user from token
       const user = await User.findById(decoded.id).select('-password');

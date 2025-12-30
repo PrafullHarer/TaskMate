@@ -105,10 +105,13 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 
 // Generate JWT token
 userSchema.methods.generateAuthToken = function () {
+    const secret = process.env.JWT_SECRET || 'dev_jwt_secret_change_me';
+    const expiresIn = process.env.JWT_EXPIRE || '7d';
+
     return jwt.sign(
         { id: this._id, username: this.username },
-        process.env.JWT_SECRET!,
-        { expiresIn: process.env.JWT_EXPIRE || '7d' }
+        secret,
+        { expiresIn }
     );
 };
 
